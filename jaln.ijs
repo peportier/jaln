@@ -66,11 +66,15 @@ end.
 (<:#NET) , (i.<./) {:"1 {: NET=: }: NET NB. output node coordinates
 )
 
-rownum=: 3 : 'if. 0 <: y - dim do. y-dim else. y end.'
-row=: 3 : '(< (0{y) ; rownum 1{y) { NET'
-coef=: 3 : '(2+i.N) { y'
-base=: 3 : 'F (1 2 { y) {"1 D'
-ix=: 3 : '((((<:{.y)"_`0:) @. (] < dim"_)) , ])"(0) 1 2 { y'
-rec=: 3 : 'F |: comp"1 ix y'
-dat=: rec`base @. ({. = 0:)
-comp=: dat@({.,row) mp coef@row
+comp=: 3 : 0
+row=. (<;/y){NET
+c=. (2+i.N){row
+('a';'b')=. 2{.row
+if. 0<{.y do.
+  if. a<dim do. e=. a {"1 D else. e=. comp ((<:{.y),a-dim) end.
+  if. b<dim do. f=. b {"1 D else. f=. comp ((<:{.y),b-dim) end.
+  (F e,.f) mp c
+else.
+  (F (a,b) {"1 D) mp c
+end.
+)
